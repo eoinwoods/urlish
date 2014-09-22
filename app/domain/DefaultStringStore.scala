@@ -1,3 +1,5 @@
+package domain
+
 class DefaultStringStore extends StringStore {
 
   var strings = Map[String, String]()
@@ -18,7 +20,7 @@ class DefaultStringStore extends StringStore {
     strings.size
   }
 
-  override def retrieve(k: String): Option[String] = {
+  override def find(k: String): Option[String] = {
     strings.get(k)
   }
 

@@ -1,3 +1,5 @@
+package domain
+
 object Base62Converter {
 
 
