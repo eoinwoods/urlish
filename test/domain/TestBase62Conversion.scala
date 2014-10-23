@@ -1,3 +1,5 @@
+package domain
+
 import org.scalatest.FlatSpec
 
 class TestBase62Conversion extends FlatSpec {
