@@ -1,0 +1,10 @@
+@(urls: List[(String, String)])
+    @main(Messages("application.name")) {
+        <h1>URL Shortener - URLish</h1>
+        <table>
+            <tr><th>URL</th><th>Short Form</th></tr>
+            @for((f, s) <- urls) {
+                <tr><td>@f</td> <td>@s</td></tr>
+            }
+        </table>
+    }

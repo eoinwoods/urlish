@@ -1,8 +1,8 @@
 package domain
 
-class DefaultStringStore extends StringStore {
+class DefaultStringStore(initialContent: Map[String, String]) extends StringStore {
 
-  var strings = Map[String, String]()
+  var strings = initialContent
 
   override def store(value: String): String = {
     if (strings.values.toList.contains(value)) {
@@ -16,6 +16,11 @@ class DefaultStringStore extends StringStore {
     }
   }
 
+  private def generateKey(): String = {
+    val next = strings.size + 1000
+    Base62Converter.toBase62(next)
+  }
+
   override def size: Long = {
     strings.size
   }
@@ -24,8 +29,9 @@ class DefaultStringStore extends StringStore {
     strings.get(k)
   }
 
-  private def generateKey(): String = {
-    val next = strings.size + 1000
-    Base62Converter.toBase62(next)
+  override def getAll: List[(String, String)] = {
+    strings.toList
   }
 }
+
+

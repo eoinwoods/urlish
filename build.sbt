@@ -1,4 +1,4 @@
-name := """urlsh"""
+name := """urlish"""
 
 version := "1.0-SNAPSHOT"
 

@@ -1,3 +1,5 @@
+package domain
+
 import org.scalatest.FlatSpec
 
 class TestMultipleStringShortening extends FlatSpec {

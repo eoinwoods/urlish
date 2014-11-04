@@ -1,31 +1,32 @@
 package domain
 
-import play.api.libs.json.{Json, JsString, JsObject}
-
 /**
  * Created by eoin on 19/09/2014.
  */
-class DefaultShorteningService extends ShorteningService {
+class DefaultShorteningService(initialContent: Map[String, String] = Map()) extends ShorteningService {
 
-  val shortener = new Shortener() ;
+  val SHORT_FORM_NAME = "shortForm"
+  val URL_NAME = "url"
+  val URL_COUNT_NAME = "urlCount"
+  val CONTAINER_NAME = "shortenedUrls"
 
-  override def shorten(shorteningRequestJson: String): String = {
-    val request = Json.parse(shorteningRequestJson)
-    val url = request \ "url"
-    val shortForm = shortener.shorten(url.toString())
+  val shortener = new Shortener(initialContent);
 
-    Json.obj("url" -> url, "shortForm" -> shortForm).toString
+  override def shorten(url: String): (String, String) = {
+    val shortForm = shortener.shorten(url)
+    (url, shortForm)
   }
 
-  override def getCount: String = {
-    Json.obj("urlCount" -> shortener.storeSize).toString
+  override def getCount: Long = {
+    shortener.storeSize
   }
 
-  override def unshorten(unshortenRequestJson: String): String = {
-    val request = Json.parse(unshortenRequestJson)
-    val shortForm = request \ "shortForm"
-    val longForm = shortener.unshorten(shortForm.toString)
+  override def unshorten(shortForm: String): (String, String) = {
+    val longForm = shortener.unshorten(shortForm)
+    (longForm, shortForm)
+  }
 
-    Json.obj("url" -> JsString(longForm.getOrElse("")), "shortForm" -> shortForm).toString
+  override def getShortenedUrls: List[(String, String)] = {
+    shortener.getEntries
   }
 }

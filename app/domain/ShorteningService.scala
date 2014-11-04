@@ -5,8 +5,12 @@ package domain
  */
 trait ShorteningService {
 
-  def shorten(shortenRequestJson : String) : String
-  def unshorten(unshortenRequestJson : String) : String
-  def getCount: String
+  def shorten(url: String): (String, String)
+
+  def unshorten(shortForm: String): (String, String)
+
+  def getShortenedUrls: List[(String, String)]
+
+  def getCount: Long
 
 }

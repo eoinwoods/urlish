@@ -1,10 +1,11 @@
 package domain
 
-import org.scalatest.{Matchers, FunSuite}
+import org.scalatest.{FunSuite, Matchers}
 
 /**
  * Created by eoin on 17/09/2014.
  */
+
 class TestMatrix extends FunSuite with Matchers {
 
   test("An empty matrix has no rows") {
@@ -39,8 +40,9 @@ class TestMatrix extends FunSuite with Matchers {
 
   test("A 2x2 matrix converts itself to a representative string") {
     val m = new Matrix(Array(Array(10.0, 11.0), Array(20.0, 21.0)))
-    println(m.toString)
-    assert(m.toString.matches(".*10.0.*11.0.*"))
+    // The (?s) in the regex switches on the DOTALL option so that \n is matched as a normal character
+    // see http://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html#DOTALL
+    assert(m.toString.matches("(?s).*10.0.*11.0.*20.0.*21.0.*"))
 
   }
 

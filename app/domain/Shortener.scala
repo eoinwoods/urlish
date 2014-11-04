@@ -1,22 +1,54 @@
-package domain ;
+package domain
 
-class Shortener(stringStore : StringStore = new DefaultStringStore()) {
+import scala.collection.{Map, mutable};
+
+class Shortener(initialContent: Map[String, String] = Map()) {
+
+  var stringStore: Map[String, String] = new mutable.HashMap[String, String]()
+
+  if (initialContent.size > 0) {
+    stringStore = stringStore ++ initialContent
+  }
 
   def shorten(string : String): String = {
-    stringStore.find(string) match {
-      case None =>
-        stringStore.store(string)
-      case Some(s) =>
-        s
+    if (stringStore.values.toList.contains(string)) {
+      stringStore.map {
+        _.swap
+      } getOrElse(string, "")
+    } else {
+      val newKey = generateKey()
+      stringStore = stringStore + (newKey -> string)
+      newKey
     }
   }
 
-  def unshorten(shortForm: String) : Option[String] = {
-    stringStore.find(shortForm)
+  private def generateKey(): String = {
+    val next = stringStore.keys.size + 1000
+    Base62Converter.toBase62(next)
+  }
+
+  def unshorten(shortForm: String): String = {
+    stringStore.get(shortForm).getOrElse("")
   }
 
   def storeSize = {
     stringStore.size
   }
 
+  def getEntries: List[(String, String)] = {
+    stringStore.toList
+  }
+
+}
+
+object Shortener {
+  def defaultContent: Map[String, String] = {
+    Map(
+      "http://www.bbc.co.uk" -> "aa",
+      "http://www.oracle.com" -> "ab",
+      "http://www.sybase.com" -> "ac",
+      "http://www.intertrust.com" -> "ad",
+      "http://www.eoinwoods.info" -> "ae"
+    )
+  }
 }

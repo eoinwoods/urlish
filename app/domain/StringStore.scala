@@ -5,10 +5,12 @@ package domain
  */
 trait StringStore {
 
-  def store(v : String): String
+  def store(v: String): String
 
-  def find(k : String) : Option[String]
+  def find(k: String): Option[String]
 
-  def size : Long
+  def size: Long
+
+  def getAll: List[(String, String)]
 
 }
