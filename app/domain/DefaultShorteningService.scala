@@ -14,7 +14,7 @@ class DefaultShorteningService(initialContent: Map[String, String] = Map()) exte
 
   override def shorten(url: String): (String, String) = {
     val shortForm = shortener.shorten(url)
-    (url, shortForm)
+    (shortForm, url)
   }
 
   override def getCount: Long = {
@@ -23,7 +23,7 @@ class DefaultShorteningService(initialContent: Map[String, String] = Map()) exte
 
   override def unshorten(shortForm: String): (String, String) = {
     val longForm = shortener.unshorten(shortForm)
-    (longForm, shortForm)
+    (shortForm, longForm)
   }
 
   override def getShortenedUrls: List[(String, String)] = {

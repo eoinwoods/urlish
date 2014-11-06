@@ -18,13 +18,13 @@ class TestShorteningService extends FlatSpec {
   it must "return a key for a URL" in {
     val f = fixture
     val url = "http://www.artechra.com"
-    assert(f.svc.shorten(url)._1 == url && f.svc.shorten(url)._2.length > 1)
+    assert(f.svc.shorten(url)._2 == url && f.svc.shorten(url)._1.length > 1)
   }
 
   it must "return a shortened value consistently" in {
     val f = fixture
     val url = "http://www.artechra.com"
-    val shortForm = f.svc.shorten(url)._2
+    val shortForm = f.svc.shorten(url)._1
     assert(f.svc.unshorten(shortForm) == f.svc.unshorten(shortForm))
   }
 

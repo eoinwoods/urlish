@@ -1,8 +1,10 @@
 import org.junit.runner._
 import org.specs2.mutable._
 import org.specs2.runner._
+import play.api.libs.json._
 import play.api.test.Helpers._
 import play.api.test._
+
 
 /**
  * Add your spec here.
@@ -26,8 +28,12 @@ class ApplicationSpec extends Specification {
       contentAsString(home) must contain("URL Shortener")
     }
 
+    "" in new WithApplication {
+
+    }
+
     "return JSON for a URL list web service" in new WithApplication {
-      val home = route(FakeRequest(GET, "/urls")).get
+      val home = route(FakeRequest(GET, "/json/urls")).get
 
       status(home) must equalTo(OK)
       contentType(home) must beSome.which(_ == "application/json")
@@ -35,11 +41,14 @@ class ApplicationSpec extends Specification {
     }
 
     "return JSON for a URL lookup web service" in new WithApplication {
-      val home = route(FakeRequest(GET, "/url/aa")).get
+      val home = route(FakeRequest(GET, "/json/url/aa")).get
 
       status(home) must equalTo(OK)
       contentType(home) must beSome.which(_ == "application/json")
-      contentAsString(home) must contain("bbc.co.uk")
+      val json = Json.parse(contentAsString(home))
+      (json \ "shortForm").toString() equals ("\"aa\"")
+      (json \ "url").toString() must contain("bbc.co.uk")
     }
+
   }
 }
