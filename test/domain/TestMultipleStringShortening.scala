@@ -5,7 +5,7 @@ import org.scalatest.FlatSpec
 class TestMultipleStringShortening extends FlatSpec {
 
   val shortener = new Shortener()
-
+      		
   "Two strings" should "shorten to different strings" in {
     assert(shortener.shorten("url1") != shortener.shorten("url2"))
   }
