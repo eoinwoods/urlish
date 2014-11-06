@@ -1,9 +1,8 @@
+import org.junit.runner._
 import org.specs2.mutable._
 import org.specs2.runner._
-import org.junit.runner._
-
-import play.api.test._
 import play.api.test.Helpers._
+import play.api.test._
 
 /**
  * Add your spec here.
@@ -24,7 +23,23 @@ class ApplicationSpec extends Specification {
 
       status(home) must equalTo(OK)
       contentType(home) must beSome.which(_ == "text/html")
-      contentAsString(home) must contain ("Your new application is ready.")
+      contentAsString(home) must contain("URL Shortener")
+    }
+
+    "return JSON for a URL list web service" in new WithApplication {
+      val home = route(FakeRequest(GET, "/urls")).get
+
+      status(home) must equalTo(OK)
+      contentType(home) must beSome.which(_ == "application/json")
+      contentAsString(home) must contain("oracle.com")
+    }
+
+    "return JSON for a URL lookup web service" in new WithApplication {
+      val home = route(FakeRequest(GET, "/url/aa")).get
+
+      status(home) must equalTo(OK)
+      contentType(home) must beSome.which(_ == "application/json")
+      contentAsString(home) must contain("bbc.co.uk")
     }
   }
 }
