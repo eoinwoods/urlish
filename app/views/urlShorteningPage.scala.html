@@ -1,15 +1,14 @@
-@(urlForm: Form[(String, Option[String])])
+@(urlForm: Form[String])
 
 @import views.html.helper._
 
 @main(Messages("application.name")) {
     <h1>URL Shortener - URLish</h1>
     <p>Enter URL to shorten:</p>
-    @form(action = routes.Application.index) {
+    @form(action = routes.Application.urlFormSubmit()) {
         @inputText(urlForm("url"))
-        @inputText(urlForm("shortForm"), args = 'readonly -> "readonly")
+        <p class="buttons">
+            <input type="submit" id="submit">
+        <p>
     }
-    <p class="buttons">
-        <input type="submit" id="submit">
-    <p>
 }

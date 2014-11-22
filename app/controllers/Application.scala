@@ -28,24 +28,32 @@ object Application extends Controller {
   )
   val svc: ShorteningService = new DefaultShorteningService(initialUrls)
 
+  case class ShortenedUrl(
+    url : String,
+    shortForm : String
+  )
+
   val urlForm = Form(
-    tuple(
-      "url" -> nonEmptyText,
-      "shortForm" -> optional(text)
+    single(
+      "url" -> nonEmptyText
     )
   )
 
   def index = Action {
     //    Ok(views.html.index("Your new application is ready."))
     //    Ok(views.html.urlview("http://www.bbc.co.uk", "abdef"))
-    Ok(views.html.urlShorteningPage(urlForm))
+    Ok(views.html.urlShorteningPage(urlForm.fill("")))
   }
 
   def urlFormSubmit = Action { implicit request =>
-    urlForm.bindFromRequest.fold(
-    formWithErrors => BadRequest(html.urlShorteningPage(formWithErrors)), { case (url, shortForm) => Ok(html.urlShorteningPage(urlForm))}
-    )
-
+      urlForm.bindFromRequest.fold(
+        formWithErrors => Ok("Error: " + formWithErrors),
+        submittedForm => {
+          val (shortForm, originalUrl) = svc.shorten(submittedForm)
+          println((shortForm, originalUrl))
+          Ok(views.html.shortenedUrlPage(originalUrl, shortForm))
+        }
+      )
   }
 
   def urlList = Action {
