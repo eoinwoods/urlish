@@ -5,10 +5,10 @@
 @main(Messages("application.name")) {
     <h1>URL Shortener - URLish</h1>
     <p>Enter URL to shorten:</p>
-    @form(action = routes.Application.urlFormSubmit()) {
+    @form(action = routes.Application.shortenUrlFormHandler()) {
         @inputText(urlForm("url"))
         <p class="buttons">
-            <input type="submit" id="submit">
+            <input type="submit" id="submit" value="Shorten">
         <p>
     }
 }

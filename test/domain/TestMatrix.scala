@@ -21,19 +21,19 @@ class TestMatrix extends FunSuite with Matchers {
     assert(m.col(0)(0) == 1.0 && m.col(1)(1) == 4.0)
   }
 
-  test("A 1 x 3 matrix has one 3 item row") {
+  test("A 1x3 matrix has one 3 item row") {
     val m = new Matrix(Array(Array(1.0, 10.0, 100.0)))
     m.row(0) should equal(Array(1.0, 10.0, 100.0))
     assert(m.rowRank == 1)
   }
 
-  test("A 1 x 3 matrix has three 1 item colums") {
+  test("A 1x3 matrix has three 1 item colums") {
     val m = new Matrix(Array(Array(1.0, 10.0, 100.0)))
     m.col(1) should equal(Array(10.0))
     assert(m.colRank == 3)
   }
 
-  test("A 3 x 3 matrix returns its second column correctly") {
+  test("A 3x3 matrix returns its second column correctly") {
     val m = new Matrix(Array(Array(1.0, 10.0, 100.0), Array(2.0, 20.0, 200.0), Array(3.0, 30.0, 300.0)))
     m.col(1) should equal(Array(10.0, 20.0, 30.0))
   }

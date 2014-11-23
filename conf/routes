@@ -3,13 +3,15 @@
 # ~~~~
 
 # Home page
-GET        /                           controllers.Application.index
-GET        /urlList                    controllers.Application.urlList
-POST       /submit                     controllers.Application.urlFormSubmit
+GET         /                           controllers.Application.index
+GET         /urlList                    controllers.Application.urlList
+POST        /shorten                    controllers.Application.shortenUrlFormHandler
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file               controllers.Assets.at(path="/public", file)
+GET         /assets/*file               controllers.Assets.at(path="/public", file)
 
 # JSON web services
-GET        /json/urls                  controllers.Application.getUrls
-GET        /json/url/:shortForm        controllers.Application.getUrl(shortForm : String)
+GET         /json/urls                  controllers.Application.getUrls
+GET         /json/url/:shortForm        controllers.Application.getUrl(shortForm : String)
+POST        /json/shorten/:url          controllers.Application.shortenUrl(url : String)
+GET         /json/shorten/:url          controllers.Application.shortenUrl(url : String)

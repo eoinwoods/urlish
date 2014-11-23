@@ -35,17 +35,15 @@ object Application extends Controller {
 
   val urlForm = Form(
     single(
-      "url" -> nonEmptyText
+      "url" -> text
     )
   )
 
   def index = Action {
-    //    Ok(views.html.index("Your new application is ready."))
-    //    Ok(views.html.urlview("http://www.bbc.co.uk", "abdef"))
     Ok(views.html.urlShorteningPage(urlForm.fill("")))
   }
 
-  def urlFormSubmit = Action { implicit request =>
+  def shortenUrlFormHandler = Action { implicit request =>
       urlForm.bindFromRequest.fold(
         formWithErrors => Ok("Error: " + formWithErrors),
         submittedForm => {
@@ -60,8 +58,9 @@ object Application extends Controller {
     Ok(views.html.urlListView(svc.getShortenedUrls))
   }
 
-  def shortenUrl = Action {
-    Ok
+  def shortenUrl(url : String) = Action {
+    val (shortForm, _) = svc.shorten(url)
+    Ok(Json.toJson((shortForm, url)))
   }
 
   def getUrls = Action {

@@ -1,3 +1,5 @@
+import java.net.URLEncoder
+
 import org.junit.runner._
 import org.specs2.mutable._
 import org.specs2.runner._
@@ -28,8 +30,13 @@ class ApplicationSpec extends Specification {
       contentAsString(home) must contain("URL Shortener")
     }
 
-    "" in new WithApplication {
-
+    "shorten a known URL to the right short form" in new WithApplication {
+      val formParams = Map("url" -> "http://www.bbc.co.uk")
+      val req = FakeRequest(POST, "/shorten").withFormUrlEncodedBody(formParams.toList: _*)
+      val output = route(req).get
+      status(output) must equalTo(OK)
+      contentType(output) must beSome.which(_ == "text/html")
+      contentAsString(output) must contain("Short Form: aa")
     }
 
     "return JSON for a URL list web service" in new WithApplication {
@@ -48,6 +55,16 @@ class ApplicationSpec extends Specification {
       val json = Json.parse(contentAsString(home))
       (json \ "shortForm").toString() equals ("\"aa\"")
       (json \ "url").toString() must contain("bbc.co.uk")
+    }
+
+    "shorten a URL via a REST service" in new WithApplication {
+      val requestPath = "/json/shorten/" + URLEncoder.encode("http://www.bbc.co.uk", "UTF-8")
+      val result = route(FakeRequest(POST, requestPath)).get
+      status(result) must be equalTo(OK)
+      contentType(result) must beSome.which(_ == "application/json")
+      val json = Json.parse(contentAsString(result))
+      (json \ "url").toString() must contain("www.bbc.co.uk")
+      (json \ "shortForm").toString equals("\"aa\"")
     }
 
   }
