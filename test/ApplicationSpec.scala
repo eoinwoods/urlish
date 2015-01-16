@@ -39,6 +39,16 @@ class ApplicationSpec extends Specification {
       contentAsString(output) must contain("Short Form: aa")
     }
 
+    "shorten an empty URL back to the index page" in new WithApplication {
+      val formParams = Map("url" -> "")
+      val req = FakeRequest(POST, "/shorten").withFormUrlEncodedBody(formParams.toList: _*)
+      val output = route(req).get
+      status(output) must equalTo(OK)
+      contentType(output) must beSome.which(_ == "text/html")
+      contentAsString(output) must not contain ("Short Form: aa")
+      contentAsString(output) must contain("URL Shortener")
+    }
+
     "return JSON for a URL list web service" in new WithApplication {
       val home = route(FakeRequest(GET, "/json/urls")).get
 

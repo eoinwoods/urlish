@@ -5,7 +5,6 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.{JsValue, Json, Writes}
 import play.api.mvc._
-import views.html
 
 object Application extends Controller {
 
@@ -39,17 +38,23 @@ object Application extends Controller {
     )
   )
 
+  val indexPage = views.html.urlShorteningPage(urlForm.fill(""))
+
   def index = Action {
-    Ok(views.html.urlShorteningPage(urlForm.fill("")))
+    Ok(indexPage)
   }
 
   def shortenUrlFormHandler = Action { implicit request =>
       urlForm.bindFromRequest.fold(
         formWithErrors => Ok("Error: " + formWithErrors),
         submittedForm => {
-          val (shortForm, originalUrl) = svc.shorten(submittedForm)
-          println((shortForm, originalUrl))
-          Ok(views.html.shortenedUrlPage(originalUrl, shortForm))
+          println("Submitted Form: " + submittedForm)
+          if (submittedForm.length == 0) {
+            Ok(indexPage)
+          } else {
+            val (shortForm, originalUrl) = svc.shorten(submittedForm)
+            Ok(views.html.shortenedUrlPage(originalUrl, shortForm))
+          }
         }
       )
   }

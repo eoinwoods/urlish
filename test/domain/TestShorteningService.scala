@@ -46,4 +46,10 @@ class TestShorteningService extends FlatSpec {
     assert(svc.getCount == 2)
   }
 
+  it must "return an empty string for an empty URL" in {
+    val svc = new DefaultShorteningService()
+    val resp = svc.shorten("")
+    resp === ""
+  }
+
 }
