@@ -1,13 +1,9 @@
 @(url: String, shortForm: String)
 
-@import views.html.helper._
-
 @main(Messages("application.name")) {
     <h1>URL Shortener - URLish</h1>
-    <p>Shortened URL:</p>
     <div>
-    <p>URL: @url</p>
-    <p>Short Form: @shortForm</p>
+        <p>URL '@url' has been shortened to '@shortForm'</p>
     </div>
     <form action="/">
         <input type="submit" value="Shorten Another!">

@@ -10,14 +10,14 @@ class Shortener(initialContent: Map[String, String] = Map()) {
     stringStore = stringStore ++ initialContent
   }
 
-  def shorten(string : String): String = {
-    if (stringStore.values.toList.contains(string)) {
+  def shorten(url: String): String = {
+    if (stringStore.values.toList.contains(url)) {
       stringStore.map {
         _.swap
-      } getOrElse(string, "")
+      } getOrElse(url, "")
     } else {
       val newKey = generateKey()
-      stringStore = stringStore + (newKey -> string)
+      stringStore = stringStore + (newKey -> url)
       newKey
     }
   }

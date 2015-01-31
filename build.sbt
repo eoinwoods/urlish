@@ -11,5 +11,8 @@ libraryDependencies ++= Seq(
   anorm,
   cache,
   ws,
-  "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
+  "org.scalatest" % "scalatest_2.11" % "2.2.1" % "test",
+  "org.webjars" % "bootstrap" % "3.3.2"
 )
+
+

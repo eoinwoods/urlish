@@ -48,7 +48,6 @@ object Application extends Controller {
       urlForm.bindFromRequest.fold(
         formWithErrors => Ok("Error: " + formWithErrors),
         submittedForm => {
-          println("Submitted Form: " + submittedForm)
           if (submittedForm.length == 0) {
             Ok(indexPage)
           } else {

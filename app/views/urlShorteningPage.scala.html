@@ -1,14 +1,18 @@
 @(urlForm: Form[String])
 
-@import views.html.helper._
 
 @main(Messages("application.name")) {
-    <h1>URL Shortener - URLish</h1>
-    <p>Enter URL to shorten:</p>
-    @form(action = routes.Application.shortenUrlFormHandler()) {
-        @inputText(urlForm("url"))
-        <p class="buttons">
-            <input type="submit" id="submit" value="Shorten">
-        <p>
-    }
+    <div class="jumbotron">
+        <h1>URLish</h1>
+        <p>The URL Shortener</p>
+        <p>This is the simple but trustworthy URL shortener.  Enter a URL below to get started.</p>
+    </div>
+
+    <form action="@routes.Application.shortenUrlFormHandler()" method="post" class="form-inline">
+        <div class="form-group">
+            <label for="url">URL:</label>
+            <input type="text" class="form-control" name="url" placeholder="http://www.mysite.com">
+            <button type="submit" id="submit" class="btn btn-primary">Shorten</button>
+        </div>
+    </form>
 }
